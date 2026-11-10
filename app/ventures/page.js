@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import VentureRoadmap from "../../components/VentureRoadmap";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const COMPANY = "BM2GROUP";
 
@@ -55,8 +56,8 @@ export default function VenturesPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible" style={{ justifyContent: "center" }}>
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`} style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
+      <header className="nav visible inner-page-nav">
+        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
           <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="/ventures" style={{ color: "var(--cyan)" }} onClick={() => setMobileMenuOpen(false)}>Ventures</a>
           <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
@@ -69,9 +70,9 @@ export default function VenturesPage() {
         </div>
       </header>
 
-      <main>
+      <main style={{ width: "100%", boxSizing: "border-box", overflow: "hidden" }}>
         {/* VENTURES CONTENT */}
-        <div style={{ padding: "120px 24px 100px", maxWidth: "1100px", margin: "0 auto" }}>
+        <div className="ventures-page" style={{ padding: "120px 16px 100px", maxWidth: "1100px", margin: "0 auto", width: "100%", boxSizing: "border-box", overflow: "hidden" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
             <div style={{ textAlign: "center", marginBottom: "10px" }}>
               <h1 style={{ fontSize: "2.8rem", fontWeight: "800", fontFamily: "Outfit", marginBottom: "12px", letterSpacing: "-0.02em" }}>
@@ -93,9 +94,7 @@ export default function VenturesPage() {
         2026 @ All Rights Reserved BM2Group
       </footer>
 
-      <button className="floating-theme-btn" onClick={toggleTheme} aria-label="Toggle theme" title="Toggle theme">
-        <Icon name={theme === "dark" ? "sun" : "moon"} size={22} />
-      </button>
+      <ThemeToggle />
     </>
   );
 }

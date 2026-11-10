@@ -1,4 +1,5 @@
 import "./globals.css";
+import PageTransition from "../components/PageTransition";
 
 export const metadata = {
   title: "BM2GROUP",
@@ -12,6 +13,11 @@ export const metadata = {
     apple: "/apple-touch-icon.png",
   },
   manifest: "/site.webmanifest",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 // Runs before paint so there is no flash of the wrong theme (default: light)
@@ -33,7 +39,10 @@ export default function RootLayout({ children }) {
         />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <PageTransition />
+      </body>
     </html>
   );
 }

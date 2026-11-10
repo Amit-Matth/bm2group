@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const COMPANY = "BM2GROUP";
 
@@ -111,8 +112,8 @@ export default function Home() {
         <span className="grid" />
       </div>
 
-      <header className={`nav ${scrolled ? "visible" : ""}`} style={{ justifyContent: "center" }}>
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`} style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
+      <header className={`nav home-nav ${scrolled ? "visible" : ""}`}>
+        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
           <a href="/" style={{ color: "var(--cyan)" }} onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="/ventures" onClick={() => setMobileMenuOpen(false)}>Ventures</a>
           <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
@@ -176,12 +177,12 @@ export default function Home() {
             </a>
 
             {/* Top-Right Venture Node: BM2 PDFHub */}
-            <a href="/ventures/bm2-pdfhub" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+            <a href="/ventures/bm2-pdfhub?from=home" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
               <h3>BM2 PDFHub</h3>
             </a>
 
             {/* Bottom Venture Node: BM2 Innovation */}
-            <a href="/ventures/bm2-innovation" className="sipware-card card-bottom" style={{ position: "absolute", left: "50%", top: "calc(50% + 220px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+            <a href="/ventures/bm2-innovation?from=home" className="sipware-card card-bottom" style={{ position: "absolute", left: "50%", top: "calc(50% + 220px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
               <h3>BM2 Innovation</h3>
             </a>
           </div>
@@ -211,20 +212,11 @@ export default function Home() {
         </section>
       </main>
 
-      {/* FOOTER */}
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
 
-      {/* Floating Dark Mode Button at Bottom Right */}
-      <button
-        className="floating-theme-btn"
-        onClick={toggleTheme}
-        aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-        title="Toggle theme"
-      >
-        <Icon name={theme === "dark" ? "sun" : "moon"} size={22} />
-      </button>
+      <ThemeToggle />
     </>
   );
 }

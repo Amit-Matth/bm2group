@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const COMPANY = "BM2GROUP";
 
@@ -116,9 +117,11 @@ export default function AboutPage() {
         </div>
       </main>
 
-      <button className="floating-theme-btn" onClick={toggleTheme} title="Toggle theme">
-        <Icon name={theme === "dark" ? "sun" : "moon"} size={22} />
-      </button>
+      <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
+        2026 @ All Rights Reserved BM2Group
+      </footer>
+
+      <ThemeToggle />
     </>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const COMPANY = "BM2GROUP";
 
@@ -241,8 +242,8 @@ export default function JourneyPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible" style={{ justifyContent: "center" }}>
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`} style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
+      <header className="nav visible inner-page-nav">
+        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
           <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="/ventures" onClick={() => setMobileMenuOpen(false)}>Ventures</a>
           <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
@@ -332,7 +333,7 @@ export default function JourneyPage() {
 
       <main>
         {/* JOURNEY CONTENT */}
-        <div style={{ padding: "120px 24px 140px", maxWidth: "1100px", margin: "0 auto", position: "relative" }}>
+        <div className="journey-page" style={{ padding: "120px 24px 140px", maxWidth: "1100px", margin: "0 auto", position: "relative" }}>
           {/* HEADER */}
           <div style={{ marginBottom: "50px", textAlign: "center" }}>
             <h1 style={{ fontSize: "2.8rem", fontWeight: "800", fontFamily: "'Great Vibes', cursive", marginBottom: "10px", letterSpacing: "-0.02em" }}>
@@ -474,6 +475,8 @@ export default function JourneyPage() {
                       justifyContent: "space-between",
                       alignItems: "center",
                       borderBottom: "1px solid var(--border)",
+                      borderTopLeftRadius: "16px",
+                      borderTopRightRadius: "16px",
                     }}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -704,14 +707,11 @@ export default function JourneyPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
 
-      <button className="floating-theme-btn" onClick={toggleTheme} title="Toggle theme">
-        <Icon name={theme === "dark" ? "sun" : "moon"} size={22} />
-      </button>
+      <ThemeToggle />
 
       <style jsx global>{`
         @keyframes fadeIn {
@@ -744,11 +744,24 @@ export default function JourneyPage() {
             height: auto !important;
             display: flex !important;
             flex-direction: column !important;
-            gap: 24px !important;
+            gap: 28px !important;
             width: 100% !important;
             max-width: 100% !important;
-            padding: 0 8px !important;
+            padding: 0 12px 0 42px !important;
             box-sizing: border-box !important;
+            overflow: visible !important;
+          }
+          .journey-container::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            bottom: 12px;
+            left: 22px;
+            width: 3px;
+            border-radius: 3px;
+            background: linear-gradient(to bottom, var(--cyan), var(--blue) 50%, var(--orange));
+            box-shadow: 0 0 14px color-mix(in srgb, var(--cyan) 65%, transparent);
+            z-index: 0;
           }
           .journey-card {
             position: relative !important;
@@ -756,11 +769,43 @@ export default function JourneyPage() {
             left: auto !important;
             width: 100% !important;
             max-width: 100% !important;
+            margin-left: 0 !important;
+            overflow: visible !important;
             box-sizing: border-box !important;
+          }
+          .journey-card::before {
+            content: "";
+            position: absolute;
+            left: -26px;
+            top: 24px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--cyan);
+            border: 2.5px solid var(--bg);
+            box-shadow: 0 0 12px var(--cyan);
+            z-index: 2;
+          }
+          .journey-card::after {
+            content: "";
+            position: absolute;
+            left: -26px;
+            top: 29px;
+            width: 26px;
+            height: 2px;
+            background: var(--cyan);
+            box-shadow: 0 0 8px var(--cyan);
+            z-index: 1;
           }
           .journey-svg {
             display: none !important;
           }
+        }
+        @media (max-width: 600px) {
+          .journey-page { padding: 92px 18px 90px !important; }
+          .journey-page > div:first-child { margin-bottom: 32px !important; }
+          .journey-page h1 { font-size: 2.35rem !important; }
+          .journey-page p { font-size: 1rem !important; }
         }
       `}</style>
     </>

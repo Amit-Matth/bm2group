@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const COMPANY = "BM2GROUP";
 
@@ -89,11 +90,11 @@ function VentureCountdown({ targetDate }) {
   ];
 
   return (
-    <div style={{ width: "100%", maxWidth: "680px", margin: "24px auto 0" }}>
+    <div className="venture-countdown" style={{ width: "100%", maxWidth: "680px", margin: "24px auto 0", boxSizing: "border-box" }}>
       {/* 4 CYBER RADIAL DIALS */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px", textAlign: "center" }}>
+      <div className="venture-countdown-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", textAlign: "center", width: "100%", boxSizing: "border-box" }}>
         {units.map((unit) => {
-          const circumference = 2 * Math.PI * 34;
+          const circumference = 2 * Math.PI * 30;
           const strokeDashoffset = circumference - (Math.min(unit.value, unit.max) / unit.max) * circumference;
 
           return (
@@ -102,23 +103,25 @@ function VentureCountdown({ targetDate }) {
               style={{
                 background: "color-mix(in srgb, var(--card) 92%, var(--cyan) 8%)",
                 border: "1.5px solid var(--border)",
-                borderRadius: "20px",
-                padding: "16px 8px 14px",
+                borderRadius: "16px",
+                padding: "12px 4px 10px",
                 boxShadow: "0 10px 30px rgba(0,0,0,0.15)",
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
                 position: "relative",
                 overflow: "hidden",
+                boxSizing: "border-box",
+                minWidth: 0,
               }}
             >
               {/* Radial Dial SVG */}
-              <div style={{ position: "relative", width: "84px", height: "84px", marginBottom: "8px" }}>
-                <svg width="84" height="84" viewBox="0 0 84 84" style={{ transform: "rotate(-90deg)" }}>
+              <div style={{ position: "relative", width: "68px", height: "68px", marginBottom: "6px", maxWidth: "100%" }}>
+                <svg width="100%" height="100%" viewBox="0 0 84 84" style={{ transform: "rotate(-90deg)", display: "block" }}>
                   <circle
                     cx="42"
                     cy="42"
-                    r="34"
+                    r="30"
                     fill="none"
                     stroke="color-mix(in srgb, var(--text) 18%, var(--border))"
                     strokeWidth="6"
@@ -126,7 +129,7 @@ function VentureCountdown({ targetDate }) {
                   <circle
                     cx="42"
                     cy="42"
-                    r="34"
+                    r="30"
                     fill="none"
                     stroke={unit.color}
                     strokeWidth="6"
@@ -144,7 +147,7 @@ function VentureCountdown({ targetDate }) {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    fontSize: "1.6rem",
+                    fontSize: "1.3rem",
                     fontWeight: "900",
                     fontFamily: "Outfit",
                     color: "var(--text)",
@@ -157,10 +160,10 @@ function VentureCountdown({ targetDate }) {
 
               <span
                 style={{
-                  fontSize: "0.75rem",
+                  fontSize: "0.68rem",
                   fontWeight: "800",
                   fontFamily: "monospace",
-                  letterSpacing: "0.12em",
+                  letterSpacing: "0.08em",
                   color: unit.color,
                 }}
               >
@@ -205,8 +208,8 @@ export default function VentureDetailPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible">
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`} style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
+      <header className="nav visible inner-page-nav">
+        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
           <a href="/" style={backHref === "/" ? { color: "var(--cyan)" } : undefined} onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="/ventures" style={backHref === "/ventures" ? { color: "var(--cyan)" } : undefined} onClick={() => setMobileMenuOpen(false)}>Ventures</a>
           <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
@@ -219,12 +222,13 @@ export default function VentureDetailPage() {
         </div>
       </header>
 
-      <main style={{ padding: "140px 24px 100px", maxWidth: "860px", margin: "0 auto" }}>
-        <div style={{ background: "var(--card)", border: "1.5px solid var(--border)", borderRadius: "24px", padding: "56px 36px 48px", boxShadow: "0 20px 50px rgba(0,0,0,0.08)", textAlign: "center", position: "relative" }}>
+      <main className="venture-detail-main" style={{ padding: "140px 16px 100px", maxWidth: "860px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
+        <div className="venture-detail-card" style={{ background: "var(--card)", border: "1.5px solid var(--border)", borderRadius: "24px", padding: "48px 20px 40px", boxShadow: "0 20px 50px rgba(0,0,0,0.08)", textAlign: "center", position: "relative", width: "100%", boxSizing: "border-box", overflow: "hidden" }}>
 
           {/* Context-aware back button positioned at the top-left */}
           <a
             href={backHref}
+            className="venture-back-link"
             style={{
               position: "absolute",
               top: "24px",
@@ -249,6 +253,7 @@ export default function VentureDetailPage() {
 
           {/* LARGE ULTRA-SHARP VENTURE LOGO SHOWCASE */}
           <div
+            className="venture-detail-logo"
             style={{
               width: "130px",
               height: "130px",
@@ -277,19 +282,24 @@ export default function VentureDetailPage() {
             />
           </div>
 
-          <h1 style={{ fontSize: "3rem", fontWeight: "900", fontFamily: "Outfit", marginBottom: "36px", letterSpacing: "-0.02em" }}>
+          <h1 className="venture-detail-title" style={{ fontSize: "3rem", fontWeight: "900", fontFamily: "Outfit", marginBottom: "36px", letterSpacing: "-0.02em" }}>
             {venture.name}
           </h1>
 
           {venture.targetDate ? (
             <div style={{ marginTop: "24px" }}>
-              <p style={{ fontSize: "0.9rem", fontWeight: "700", textTransform: "uppercase", letterSpacing: "0.1em", color: "var(--muted)", marginBottom: "16px" }}>
-                Launch Countdown (9:00 AM, November 16, 2026)
-              </p>
+              <div className="venture-countdown-heading">
+                <p className="venture-countdown-kicker">Launch countdown</p>
+                <p className="venture-countdown-date">
+                  <time dateTime={venture.targetDate}>November 16, 2026</time>
+                  <span aria-hidden="true"> · </span>
+                  <time dateTime={venture.targetDate}>9:00 AM</time>
+                </p>
+              </div>
               <VentureCountdown targetDate={venture.targetDate} />
             </div>
           ) : (
-            <div style={{ position: "relative", overflow: "hidden", background: "linear-gradient(135deg, color-mix(in srgb, var(--card) 88%, var(--cyan) 12%), color-mix(in srgb, var(--card) 95%, var(--blue) 5%))", border: "1.5px solid color-mix(in srgb, var(--cyan) 35%, var(--border))", padding: "32px 28px", borderRadius: "20px", maxWidth: "540px", margin: "24px auto 0", boxShadow: "0 16px 38px color-mix(in srgb, var(--cyan) 12%, transparent)" }}>
+            <div className="venture-upcoming-panel" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(135deg, color-mix(in srgb, var(--card) 88%, var(--cyan) 12%), color-mix(in srgb, var(--card) 95%, var(--blue) 5%))", border: "1.5px solid color-mix(in srgb, var(--cyan) 35%, var(--border))", padding: "32px 28px", borderRadius: "20px", maxWidth: "540px", margin: "24px auto 0", boxShadow: "0 16px 38px color-mix(in srgb, var(--cyan) 12%, transparent)" }}>
               <div style={{ position: "absolute", top: "-54px", right: "-36px", width: "150px", height: "150px", borderRadius: "50%", background: "color-mix(in srgb, var(--cyan) 12%, transparent)", filter: "blur(4px)" }} />
               <div style={{ position: "relative", zIndex: 1 }}>
                 <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", padding: "6px 11px", borderRadius: "999px", background: "color-mix(in srgb, var(--cyan) 12%, transparent)", border: "1px solid color-mix(in srgb, var(--cyan) 25%, var(--border))", color: "var(--cyan)", fontSize: "0.72rem", fontWeight: "800", letterSpacing: "0.1em", marginBottom: "16px" }}>
@@ -308,14 +318,11 @@ export default function VentureDetailPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
 
-      <button className="floating-theme-btn" onClick={toggleTheme} title="Toggle theme">
-        <Icon name={theme === "dark" ? "sun" : "moon"} size={22} />
-      </button>
+      <ThemeToggle />
     </>
   );
 }

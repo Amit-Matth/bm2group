@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const COMPANY = "BM2GROUP";
 const FOUNDER_EMAIL = "amitmatth121@gmail.com";
@@ -94,8 +95,8 @@ export default function FounderPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible" style={{ justifyContent: "center" }}>
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`} style={{ margin: "0 auto", display: "flex", justifyContent: "center" }}>
+      <header className="nav visible inner-page-nav">
+        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
           <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
           <a href="/ventures" onClick={() => setMobileMenuOpen(false)}>Ventures</a>
           <a href="/founder" style={{ color: "var(--cyan)" }} onClick={() => setMobileMenuOpen(false)}>Founder</a>
@@ -110,7 +111,7 @@ export default function FounderPage() {
 
       <main>
         {/* FOUNDER CONTENT */}
-        <div style={{ padding: "120px 24px 90px", maxWidth: "860px", margin: "0 auto" }}>
+        <div className="founder-page" style={{ padding: "120px 24px 90px", maxWidth: "860px", margin: "0 auto" }}>
           {/* PROFILE HERO HEADER */}
           <div style={{ display: "flex", alignItems: "center", gap: "32px", flexWrap: "wrap", marginBottom: "40px" }}>
             <div style={{ position: "relative" }}>
@@ -339,14 +340,11 @@ export default function FounderPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
 
-      <button className="floating-theme-btn" onClick={toggleTheme} title="Toggle theme">
-        <Icon name={theme === "dark" ? "sun" : "moon"} size={22} />
-      </button>
+      <ThemeToggle />
     </>
   );
 }

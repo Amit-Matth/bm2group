@@ -41,13 +41,13 @@ export default function VentureRoadmap() {
   const [pinnedPreview, setPinnedPreview] = useState(null);
 
   return (
-    <div style={{ width: "100%", maxWidth: "980px", margin: "0 auto", fontFamily: "Outfit, sans-serif", position: "relative", boxSizing: "border-box" }}>
+    <div style={{ width: "100%", maxWidth: "980px", margin: "0 auto", fontFamily: "Outfit, sans-serif", position: "relative", boxSizing: "border-box", overflow: "visible" }}>
       {/* Background Ambient 3D Depth Lighting */}
-      <div style={{ position: "absolute", top: "10%", left: "20%", width: "400px", height: "400px", background: "radial-gradient(circle, rgba(2,132,199,0.12) 0%, transparent 70%)", filter: "blur(60px)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", top: "50%", right: "10%", width: "450px", height: "450px", background: "radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%)", filter: "blur(70px)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", top: "10%", left: "5%", width: "min(350px, 75vw)", height: "min(350px, 75vw)", background: "radial-gradient(circle, rgba(2,132,199,0.12) 0%, transparent 70%)", filter: "blur(60px)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", top: "50%", right: "5%", width: "min(380px, 75vw)", height: "min(380px, 75vw)", background: "radial-gradient(circle, rgba(245,158,11,0.1) 0%, transparent 70%)", filter: "blur(70px)", pointerEvents: "none" }} />
 
       {/* Roadmap Steps Container with Intertwined S-Curve SVG */}
-      <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: "50px", paddingBottom: "40px", paddingTop: "20px", width: "100%", boxSizing: "border-box" }}>
+      <div className="roadmap-steps" style={{ position: "relative", display: "flex", flexDirection: "column", gap: "50px", paddingBottom: "40px", paddingTop: "20px", width: "100%", boxSizing: "border-box" }}>
 
         {/* Absolute Background SVG S-Curve connecting the nodes with 3D Depth */}
         <svg
@@ -233,15 +233,15 @@ export default function VentureRoadmap() {
                         style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "14px", display: "block" }}
                       />
 
-                      {/* HOVER BIG PREVIEW FLOATING CARD ON TOP */}
-                      {(hoveredLogo === v.id || pinnedPreview === v.id) && (
+                      {/* DESKTOP HOVER PREVIEW */}
+                      {hoveredLogo === v.id && !pinnedPreview && (
                         <div
                           style={{
                             position: "absolute",
                             bottom: "70px",
                             left: "0",
-                            width: "240px",
-                            height: "240px",
+                            width: "220px",
+                            height: "220px",
                             background: "color-mix(in srgb, var(--card) 96%, #000)",
                             border: `2px solid ${v.color}`,
                             borderRadius: "24px",
@@ -253,40 +253,9 @@ export default function VentureRoadmap() {
                             alignItems: "center",
                             justifyContent: "center",
                             backdropFilter: "blur(20px)",
-                            pointerEvents: pinnedPreview === v.id ? "auto" : "none",
+                            pointerEvents: "none",
                           }}
                         >
-                          {pinnedPreview === v.id && (
-                            <button
-                              type="button"
-                              aria-label="Close image preview"
-                              title="Close preview"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                setPinnedPreview(null);
-                                setHoveredLogo(null);
-                              }}
-                              style={{
-                                position: "absolute",
-                                top: "8px",
-                                right: "8px",
-                                width: "30px",
-                                height: "30px",
-                                display: "grid",
-                                placeItems: "center",
-                                border: "1px solid var(--border)",
-                                borderRadius: "50%",
-                                background: "var(--card)",
-                                color: "var(--text)",
-                                fontSize: "1.2rem",
-                                lineHeight: 1,
-                                cursor: "pointer",
-                                zIndex: 2,
-                              }}
-                            >
-                              ×
-                            </button>
-                          )}
                           <div style={{ width: "100%", height: "100%", borderRadius: "16px", overflow: "hidden", border: "1.5px solid var(--border)" }}>
                             <img src={v.logoImg} alt={`${v.name} preview`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                           </div>
@@ -320,6 +289,80 @@ export default function VentureRoadmap() {
             </div>
           );
         })}
+
+      {/* CENTERED LIGHTBOX PREVIEW MODAL */}
+      {pinnedPreview && (() => {
+        const venture = VENTURES.find(v => v.id === pinnedPreview);
+        if (!venture) return null;
+        return (
+          <div
+            onClick={() => setPinnedPreview(null)}
+            style={{
+              position: "fixed",
+              inset: 0,
+              zIndex: 10000,
+              background: "rgba(0, 0, 0, 0.8)",
+              backdropFilter: "blur(14px)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "24px",
+              animation: "fadeIn 0.25s ease",
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                position: "relative",
+                width: "min(340px, 90vw)",
+                height: "min(340px, 90vw)",
+                background: "color-mix(in srgb, var(--card) 96%, #000)",
+                border: `2.5px solid ${venture.color}`,
+                borderRadius: "28px",
+                padding: "20px",
+                boxShadow: `0 25px 70px rgba(0,0,0,0.8), 0 0 50px color-mix(in srgb, ${venture.color} 45%, transparent)`,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                backdropFilter: "blur(20px)",
+              }}
+            >
+              <button
+                type="button"
+                aria-label="Close image preview"
+                title="Close preview"
+                onClick={() => setPinnedPreview(null)}
+                style={{
+                  position: "absolute",
+                  top: "14px",
+                  right: "14px",
+                  width: "36px",
+                  height: "36px",
+                  display: "grid",
+                  placeItems: "center",
+                  border: "1.5px solid var(--border)",
+                  borderRadius: "50%",
+                  background: "var(--card)",
+                  color: "var(--text)",
+                  fontSize: "1.3rem",
+                  lineHeight: 1,
+                  cursor: "pointer",
+                  zIndex: 10,
+                }}
+              >
+                ×
+              </button>
+              <div style={{ width: "100%", height: "100%", borderRadius: "18px", overflow: "hidden", border: "1.5px solid var(--border)" }}>
+                <img src={venture.logoImg} alt={`${venture.name} preview`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <h4 style={{ marginTop: "16px", fontSize: "1.2rem", fontWeight: "800", fontFamily: "Outfit", color: "var(--text)" }}>
+                {venture.name}
+              </h4>
+            </div>
+          </div>
+        );
+      })()}
 
         {/* Cyber Base Floor Line & Future Horizon Node */}
         <div style={{ position: "relative", zIndex: 2, marginTop: "10px", width: "100%", boxSizing: "border-box" }}>
@@ -361,18 +404,52 @@ export default function VentureRoadmap() {
           .roadmap-s-curve-bg {
             display: none !important;
           }
+          .roadmap-steps::before {
+            content: "";
+            position: absolute;
+            top: 28px;
+            bottom: 150px;
+            left: 50%;
+            width: 3px;
+            transform: translateX(-50%);
+            border-radius: 3px;
+            background: linear-gradient(to bottom, #0284c7, #f59e0b 50%, #22d3ee);
+            box-shadow: 0 0 12px rgba(2, 132, 199, 0.65);
+            opacity: 0.8;
+            pointer-events: none;
+          }
           .roadmap-step-row {
             flex-direction: column !important;
             align-items: center !important;
-            gap: 16px !important;
+            gap: 12px !important;
             width: 100% !important;
           }
           .roadmap-connector-bar {
+            display: block !important;
+            flex: 0 0 24px !important;
+            width: 4px !important;
+            height: 24px !important;
+            background: linear-gradient(to bottom, var(--cyan), color-mix(in srgb, var(--cyan) 40%, transparent)) !important;
+          }
+          .roadmap-connector-bar > div {
             display: none !important;
           }
           .roadmap-step-row > div:last-child {
             width: 100% !important;
             flex: none !important;
+            padding: 20px !important;
+            border-radius: 20px !important;
+          }
+          .roadmap-step-row h4 {
+            font-size: clamp(1.05rem, 5vw, 1.35rem) !important;
+            overflow-wrap: anywhere;
+          }
+          .roadmap-step-row > div:last-child > div:nth-child(2) {
+            align-items: flex-start !important;
+          }
+          .roadmap-step-row > div:last-child > div:nth-child(2) > div {
+            min-width: 0;
+            flex-wrap: wrap;
           }
         }
       `}</style>

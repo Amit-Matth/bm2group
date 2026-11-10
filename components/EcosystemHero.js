@@ -97,17 +97,17 @@ export default function EcosystemHero() {
         </div>
 
         {/* Top-Left Venture Node: BM2 Sipware */}
-        <a href="/ventures/bm2-sipware" className="sipware-card card-top-left" style={{ position: "absolute", left: "calc(50% - 156px)", top: "calc(50% - 156px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+        <a href="/ventures/bm2-sipware?from=home" className="sipware-card card-top-left" style={{ position: "absolute", left: "calc(50% - 156px)", top: "calc(50% - 156px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
           <h3>BM2 Sipware</h3>
         </a>
 
         {/* Top-Right Venture Node: BM2 PDFHub */}
-        <a href="/ventures/bm2-pdfhub" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+        <a href="/ventures/bm2-pdfhub?from=home" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
           <h3>BM2 PDFHub</h3>
         </a>
 
         {/* Bottom Venture Node: BM2 Innovation */}
-        <a href="/ventures/bm2-innovation" className="sipware-card card-bottom" style={{ position: "absolute", left: "50%", top: "calc(50% + 220px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+        <a href="/ventures/bm2-innovation?from=home" className="sipware-card card-bottom" style={{ position: "absolute", left: "50%", top: "calc(50% + 220px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
           <h3>BM2 Innovation</h3>
         </a>
       </div>
