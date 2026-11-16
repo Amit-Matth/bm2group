@@ -7,7 +7,7 @@ const VENTURES = [
     id: "bm2-sipware",
     num: "01",
     name: "BM2 Sipware",
-    status: "Launching Nov 16, 2026",
+    status: "Coming Soon",
     href: "/ventures/bm2-sipware",
     color: "#0284c7",
     logoImg: "/SIPWARE.png",

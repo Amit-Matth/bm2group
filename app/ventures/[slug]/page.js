@@ -34,6 +34,8 @@ function Icon({ name, size = 18 }) {
     menu: (<><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>),
     close: (<><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></>),
     back: (<><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></>),
+    rocket: (<><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /></>),
+    heart: (<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />),
   };
   return (
     <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -91,7 +93,6 @@ function VentureCountdown({ targetDate }) {
 
   return (
     <div className="venture-countdown" style={{ width: "100%", maxWidth: "680px", margin: "24px auto 0", boxSizing: "border-box" }}>
-      {/* 4 CYBER RADIAL DIALS */}
       <div className="venture-countdown-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", textAlign: "center", width: "100%", boxSizing: "border-box" }}>
         {units.map((unit) => {
           const circumference = 2 * Math.PI * 30;
@@ -115,7 +116,6 @@ function VentureCountdown({ targetDate }) {
                 minWidth: 0,
               }}
             >
-              {/* Radial Dial SVG */}
               <div style={{ position: "relative", width: "68px", height: "68px", marginBottom: "6px", maxWidth: "100%" }}>
                 <svg width="100%" height="100%" viewBox="0 0 84 84" style={{ transform: "rotate(-90deg)", display: "block" }}>
                   <circle
@@ -139,7 +139,6 @@ function VentureCountdown({ targetDate }) {
                     style={{ transition: "stroke-dashoffset 0.8s ease" }}
                   />
                 </svg>
-                {/* Digital Digit inside Dial */}
                 <div
                   style={{
                     position: "absolute",
@@ -187,6 +186,20 @@ export default function VentureDetailPage() {
   const slug = params?.slug;
   const venture = VENTURES_DATA[slug];
 
+  const [hasPassedTarget, setHasPassedTarget] = useState(true);
+
+  useEffect(() => {
+    if (!venture?.targetDate) return;
+    const checkTime = () => {
+      const target = new Date(venture.targetDate).getTime();
+      const now = Date.now();
+      setHasPassedTarget(now >= target);
+    };
+    checkTime();
+    const interval = setInterval(checkTime, 1000);
+    return () => clearInterval(interval);
+  }, [venture?.targetDate]);
+
   if (!venture) {
     return (
       <main style={{ padding: "160px 24px", textAlign: "center" }}>
@@ -195,10 +208,6 @@ export default function VentureDetailPage() {
       </main>
     );
   }
-
-  const formattedDate = venture.targetDate
-    ? new Date(venture.targetDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-    : "";
 
   return (
     <>
@@ -225,7 +234,6 @@ export default function VentureDetailPage() {
       <main className="venture-detail-main" style={{ padding: "140px 16px 100px", maxWidth: "860px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
         <div className="venture-detail-card" style={{ background: "var(--card)", border: "1.5px solid var(--border)", borderRadius: "24px", padding: "48px 20px 40px", boxShadow: "0 20px 50px rgba(0,0,0,0.08)", textAlign: "center", position: "relative", width: "100%", boxSizing: "border-box", overflow: "hidden" }}>
 
-          {/* Context-aware back button positioned at the top-left */}
           <a
             href={backHref}
             className="venture-back-link"
@@ -251,7 +259,6 @@ export default function VentureDetailPage() {
             <Icon name="back" size={16} /> {backLabel}
           </a>
 
-          {/* LARGE ULTRA-SHARP VENTURE LOGO SHOWCASE */}
           <div
             className="venture-detail-logo"
             style={{
@@ -286,7 +293,46 @@ export default function VentureDetailPage() {
             {venture.name}
           </h1>
 
-          {venture.targetDate ? (
+          {slug === "bm2-sipware" && hasPassedTarget ? (
+            <div style={{
+              background: "linear-gradient(135deg, color-mix(in srgb, var(--card) 90%, var(--cyan) 10%), color-mix(in srgb, var(--card) 96%, var(--blue) 4%))",
+              border: "1.5px solid color-mix(in srgb, var(--cyan) 35%, var(--border))",
+              borderRadius: "20px",
+              padding: "36px 28px",
+              maxWidth: "680px",
+              margin: "24px auto 0",
+              textAlign: "left",
+              boxShadow: "0 16px 40px color-mix(in srgb, var(--cyan) 12%, transparent)",
+              boxSizing: "border-box"
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
+                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "var(--cyan)" }}><Icon name="rocket" size={24} /></span>
+                <h3 style={{ fontSize: "1.4rem", fontWeight: "900", fontFamily: "Outfit", color: "var(--text)", margin: 0 }}>
+                  A Little Delayed, But Coming Soon!
+                </h3>
+              </div>
+              <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "16px" }}>
+                We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right.
+              </p>
+              <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "16px" }}>
+                Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves.
+              </p>
+              <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "16px" }}>
+                Good things are worth waiting for, and we're working behind the scenes to make this launch special.
+              </p>
+              <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "24px" }}>
+                Thank you for your patience and for being part of this journey. We can't wait to welcome you!
+              </p>
+              <div style={{ borderTop: "1px solid color-mix(in srgb, var(--cyan) 20%, var(--border))", paddingTop: "16px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
+                <span style={{ fontSize: "0.95rem", fontWeight: "800", color: "var(--cyan)", fontFamily: "Outfit", display: "flex", alignItems: "center", gap: "6px" }}>
+                  BM2 Sipware — A New Era of Gifting. <Icon name="heart" size={16} style={{ color: "#ef4444", fill: "#ef4444" }} />
+                </span>
+                <span style={{ fontSize: "0.85rem", fontWeight: "700", color: "var(--muted)" }}>
+                  — Team BM2 Group
+                </span>
+              </div>
+            </div>
+          ) : venture.targetDate ? (
             <div style={{ marginTop: "24px" }}>
               <div className="venture-countdown-heading">
                 <p className="venture-countdown-kicker">Launch countdown</p>

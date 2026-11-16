@@ -14,6 +14,8 @@ const ICONS = {
   moon: (<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />),
   menu: (<><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></>),
   cpu: (<><rect x="4" y="4" width="16" height="16" rx="2" ry="2" /><rect x="9" y="9" width="6" height="6" /><line x1="9" y1="1" x2="9" y2="4" /><line x1="15" y1="1" x2="15" y2="4" /><line x1="9" y1="20" x2="9" y2="23" /><line x1="15" y1="20" x2="15" y2="23" /><line x1="20" y1="9" x2="23" y2="9" /><line x1="20" y1="15" x2="23" y2="15" /><line x1="1" y1="9" x2="4" y2="9" /><line x1="1" y1="15" x2="4" y2="15" /></>),
+  rocket: (<><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" /><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" /></>),
+  heart: (<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />),
 };
 
 function Icon({ name, size = 18 }) {
@@ -59,8 +61,8 @@ const DEFAULT_JOURNEY = [
     id: "entry-3",
     date: "November 16, 2026",
     title: "BM2 Sipware",
-    summary: "Launch: 9:00 AM, November 16, 2026",
-    details: "",
+    summary: "A Little More Time. A Better Launch. ❤️",
+    details: "We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right. Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves. Good things are worth waiting for, and we're working behind the scenes to make this launch special. Thank you for your patience and for being part of this journey. Stay tuned. Something exciting is coming. — Team BM2 Group",
     imageUrl: ""
   }
 ];
@@ -69,11 +71,32 @@ export default function JourneyPage() {
   const [theme, toggleTheme] = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [expandedIndices, setExpandedIndices] = useState({ 0: true });
+  const [expandedIndices, setExpandedIndices] = useState({ 0: true, 2: true });
   const [entries, setEntries] = useState(DEFAULT_JOURNEY);
   const [cardHeights, setCardHeights] = useState({});
   const [cardTabs, setCardTabs] = useState({}); // { [index]: "text" | "media" }
   const [lightboxImage, setLightboxImage] = useState(null); // { url, title }
+
+  const [hasPassedSipwareLaunch, setHasPassedSipwareLaunch] = useState(true);
+
+  useEffect(() => {
+    const checkTime = () => {
+      const target = new Date("2026-11-16T09:00:00+05:30").getTime();
+      const now = Date.now();
+      setHasPassedSipwareLaunch(now >= target);
+    };
+    checkTime();
+    const interval = setInterval(checkTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const sipwareSummary = hasPassedSipwareLaunch
+    ? "A Little Delayed, But Coming Soon! 🚀"
+    : "Launch: 9:00 AM, November 16, 2026";
+
+  const sipwareDetails = hasPassedSipwareLaunch
+    ? "We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right. Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves. Good things are worth waiting for, and we're working behind the scenes to make this launch special. Thank you for your patience and for being part of this journey. BM2 Sipware — A New Era of Gifting. ❤️ — Team BM2 Group"
+    : "";
 
   const fetchJourney = async () => {
     try {
@@ -422,7 +445,7 @@ export default function JourneyPage() {
                   key={item.id || index}
                   ref={(el) => (cardRefs.current[index] = el)}
                   onClick={() => {
-                    if (!isSipwareNode) toggleNode(index);
+                    if (!isSipwareNode || hasPassedSipwareLaunch) toggleNode(index);
                   }}
                   className={`journey-card ${isRightColumn ? "journey-card-right" : "journey-card-left"}`}
                   style={{
@@ -577,7 +600,29 @@ export default function JourneyPage() {
                       </div>
                     </div>
 
-                    {activeTab === "media" ? (
+                    {isSipwareNode ? (
+                      <div style={{ animation: "fadeIn 0.3s ease", display: "flex", flexDirection: "column", gap: "12px" }}>
+                        <div style={{
+                          fontSize: "1.08rem",
+                          fontWeight: "900",
+                          fontFamily: "Outfit",
+                          color: "var(--text)",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                        }}>
+                          <Icon name="rocket" size={20} /> A Little Delayed, But Coming Soon!
+                        </div>
+                        <p style={{ fontSize: "0.93rem", lineHeight: "1.65", color: "var(--muted)", margin: 0 }}>
+                          We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right.
+                        </p>
+                        <div style={{ borderTop: "1px solid color-mix(in srgb, var(--cyan) 25%, var(--border))", paddingTop: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                          <span style={{ fontSize: "0.88rem", fontWeight: "800", color: "var(--cyan)", fontFamily: "Outfit", display: "flex", alignItems: "center", gap: "6px" }}>
+                            BM2 Sipware — A New Era of Gifting. <Icon name="heart" size={15} style={{ color: "#ef4444", fill: "#ef4444" }} />
+                          </span>
+                        </div>
+                      </div>
+                    ) : activeTab === "media" ? (
                       <div style={{ animation: "fadeIn 0.3s ease" }}>
                         <div
                           onClick={(e) => {
@@ -634,7 +679,7 @@ export default function JourneyPage() {
                         </div>
                         <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: "1.5", margin: 0, fontStyle: "italic" }}>
                           {isSipwareNode
-                            ? "Launch: 9:00 AM, November 16, 2026"
+                            ? sipwareSummary
                             : isDomainNode
                               ? "Secured a domain for BM2 Group"
                             : isGroupLaunchNode
@@ -662,7 +707,7 @@ export default function JourneyPage() {
                           : { color: "var(--muted)", fontSize: "0.95rem", lineHeight: "1.6", margin: 0 }}>
                           {isSipwareNode && <Icon name="calendar" size={17} />}
                           {isSipwareNode
-                            ? "Launch: 9:00 AM, November 16, 2026"
+                            ? sipwareSummary
                             : isDomainNode
                               ? "Secured a domain for BM2 Group"
                             : isGroupLaunchNode
@@ -670,7 +715,7 @@ export default function JourneyPage() {
                               : item.summary}
                         </p>
 
-                        {!isSipwareNode && <div
+                        {(!isSipwareNode || hasPassedSipwareLaunch) && <div
                           style={{
                             maxHeight: isExpanded ? "320px" : "0px",
                             opacity: isExpanded ? 1 : 0,
@@ -693,7 +738,9 @@ export default function JourneyPage() {
                                 ? "Purchased the bm2group.in domain marking the first small step towards our vision."
                                 : isGroupLaunchNode
                                   ? "Today marks the launch of BM2 Group. An umbrella for multiple ventures, connecting hearts, creating opportunities and making the difference."
-                                  : item.details}
+                                  : isSipwareNode
+                                    ? sipwareDetails
+                                    : item.details}
                             </p>
                           </div>
                         </div>}

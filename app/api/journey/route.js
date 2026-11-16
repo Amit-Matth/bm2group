@@ -22,8 +22,8 @@ const DEFAULT_JOURNEY = [
     id: "entry-3",
     date: "November 16, 2026",
     title: "BM2 Sipware",
-    summary: "Launch: 9:00 AM, November 16, 2026",
-    details: "",
+    summary: "A Little Delayed, But Coming Soon! 🚀",
+    details: "We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right. Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves. Good things are worth waiting for, and we're working behind the scenes to make this launch special. Thank you for your patience and for being part of this journey. BM2 Sipware — A New Era of Gifting. ❤️ — Team BM2 Group",
     imageUrl: ""
   }
 ];
