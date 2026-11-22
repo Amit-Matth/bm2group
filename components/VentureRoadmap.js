@@ -14,13 +14,13 @@ const VENTURES = [
     align: "left",
   },
   {
-    id: "bm2-pdfhub",
+    id: "bm2-levelup",
     num: "02",
-    name: "BM2 PDFHub",
+    name: "BM2 LevelUp",
     status: "Upcoming Launch",
-    href: "/ventures/bm2-pdfhub",
+    href: "/ventures/bm2-levelup",
     color: "#f59e0b",
-    logoImg: "/PDFHUB.png",
+    logoImg: "/LEVELUP.png",
     align: "right",
   },
   {
@@ -37,8 +37,6 @@ const VENTURES = [
 
 export default function VentureRoadmap() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredLogo, setHoveredLogo] = useState(null);
-  const [pinnedPreview, setPinnedPreview] = useState(null);
 
   return (
     <div style={{ width: "100%", maxWidth: "980px", margin: "0 auto", fontFamily: "Outfit, sans-serif", position: "relative", boxSizing: "border-box", overflow: "visible" }}>
@@ -184,8 +182,8 @@ export default function VentureRoadmap() {
                   width: "100%",
                   background: isActive ? "color-mix(in srgb, var(--card) 95%, var(--cyan) 12%)" : "color-mix(in srgb, var(--card) 88%, transparent)",
                   border: `2px solid ${isActive ? v.color : "var(--border)"}`,
-                  borderRadius: "28px",
-                  padding: "28px 32px",
+                  borderRadius: "24px",
+                  padding: "20px 28px",
                   cursor: "pointer",
                   boxShadow: isActive ? `0 20px 50px color-mix(in srgb, ${v.color} 35%, transparent), 0 10px 20px rgba(0,0,0,0.3)` : "0 10px 30px rgba(0,0,0,0.18)",
                   backdropFilter: "blur(20px)",
@@ -195,91 +193,44 @@ export default function VentureRoadmap() {
                   boxSizing: "border-box",
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "flex-start", alignItems: "center", marginBottom: "16px", flexWrap: "wrap", gap: "8px" }}>
-                  <span style={{ fontSize: "0.8rem", fontWeight: "700", color: "#10b981", display: "inline-flex", alignItems: "center", justifyContent: "flex-start", gap: "7px", padding: "7px 12px", borderRadius: "999px", background: "color-mix(in srgb, #10b981 10%, var(--card))", border: "1px solid color-mix(in srgb, #10b981 30%, transparent)" }}>
-                      <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981" }} /> {v.status}
-                  </span>
-                </div>
-
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "16px", flexWrap: "wrap" }}>
+                  {/* Left: Logo + Venture Title & Status Badge */}
                   <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                    {/* CRISP LOGO WITH HOVER BIG PREVIEW */}
-                    <div
-                      onMouseEnter={() => setHoveredLogo(v.id)}
-                      onMouseLeave={() => setHoveredLogo(null)}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        setActiveIndex(idx);
-                        setPinnedPreview((current) => current === v.id ? null : v.id);
-                      }}
-                      style={{
-                        width: "56px",
-                        height: "56px",
-                        borderRadius: "16px",
-                        background: "#000",
-                        border: "1.5px solid var(--border)",
-                        overflow: "visible",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        boxShadow: "0 8px 20px rgba(0,0,0,0.4)",
-                        position: "relative",
-                        cursor: "pointer",
-                      }}
-                    >
+                    <div style={{ width: "56px", height: "56px", borderRadius: "16px", overflow: "hidden", border: "1.5px solid var(--border)", background: "#000", flexShrink: 0, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}>
                       <img
                         src={v.logoImg}
                         alt={v.name}
-                        style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "14px", display: "block" }}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                       />
-
-                      {/* DESKTOP HOVER PREVIEW */}
-                      {hoveredLogo === v.id && !pinnedPreview && (
-                        <div
-                          style={{
-                            position: "absolute",
-                            bottom: "70px",
-                            left: "0",
-                            width: "220px",
-                            height: "220px",
-                            background: "color-mix(in srgb, var(--card) 96%, #000)",
-                            border: `2px solid ${v.color}`,
-                            borderRadius: "24px",
-                            padding: "16px",
-                            boxShadow: `0 20px 60px rgba(0,0,0,0.7), 0 0 35px color-mix(in srgb, ${v.color} 40%, transparent)`,
-                            zIndex: 999,
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            backdropFilter: "blur(20px)",
-                            pointerEvents: "none",
-                          }}
-                        >
-                          <div style={{ width: "100%", height: "100%", borderRadius: "16px", overflow: "hidden", border: "1.5px solid var(--border)" }}>
-                            <img src={v.logoImg} alt={`${v.name} preview`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                          </div>
-                        </div>
-                      )}
                     </div>
 
-                    <h4 style={{ fontSize: "1.5rem", fontWeight: "900", color: "var(--text)", margin: 0, fontFamily: "Outfit", letterSpacing: "-0.01em" }}>
-                      {v.name}
-                    </h4>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <h4 style={{ fontSize: "1.5rem", fontWeight: "800", color: "var(--text)", margin: 0, fontFamily: "Outfit", letterSpacing: "-0.01em" }}>
+                        {v.name}
+                      </h4>
+                      <div>
+                        <span style={{ fontSize: "0.78rem", fontWeight: "700", color: "#10b981", display: "inline-flex", alignItems: "center", gap: "6px", padding: "4px 10px", borderRadius: "999px", background: "color-mix(in srgb, #10b981 10%, var(--card))", border: "1px solid color-mix(in srgb, #10b981 30%, transparent)" }}>
+                          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 8px #10b981" }} />
+                          {v.status}
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
+                  {/* Right: View Venture CTA */}
                   <a
                     href={v.href}
                     onClick={(e) => e.stopPropagation()}
                     style={{
-                      fontSize: "0.85rem",
+                      fontSize: "0.88rem",
                       fontWeight: "800",
                       color: "#000",
                       background: v.color,
-                      padding: "10px 20px",
+                      padding: "10px 22px",
                       borderRadius: "12px",
                       textDecoration: "none",
-                      boxShadow: `0 0 20px color-mix(in srgb, ${v.color} 50%, transparent), 0 4px 10px rgba(0,0,0,0.3)`
+                      boxShadow: `0 0 20px color-mix(in srgb, ${v.color} 40%, transparent), 0 4px 10px rgba(0,0,0,0.2)`,
+                      transition: "transform 0.2s ease"
                     }}
                   >
                     View Venture →
@@ -289,80 +240,6 @@ export default function VentureRoadmap() {
             </div>
           );
         })}
-
-      {/* CENTERED LIGHTBOX PREVIEW MODAL */}
-      {pinnedPreview && (() => {
-        const venture = VENTURES.find(v => v.id === pinnedPreview);
-        if (!venture) return null;
-        return (
-          <div
-            onClick={() => setPinnedPreview(null)}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 10000,
-              background: "rgba(0, 0, 0, 0.8)",
-              backdropFilter: "blur(14px)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "24px",
-              animation: "fadeIn 0.25s ease",
-            }}
-          >
-            <div
-              onClick={(e) => e.stopPropagation()}
-              style={{
-                position: "relative",
-                width: "min(340px, 90vw)",
-                height: "min(340px, 90vw)",
-                background: "color-mix(in srgb, var(--card) 96%, #000)",
-                border: `2.5px solid ${venture.color}`,
-                borderRadius: "28px",
-                padding: "20px",
-                boxShadow: `0 25px 70px rgba(0,0,0,0.8), 0 0 50px color-mix(in srgb, ${venture.color} 45%, transparent)`,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                backdropFilter: "blur(20px)",
-              }}
-            >
-              <button
-                type="button"
-                aria-label="Close image preview"
-                title="Close preview"
-                onClick={() => setPinnedPreview(null)}
-                style={{
-                  position: "absolute",
-                  top: "14px",
-                  right: "14px",
-                  width: "36px",
-                  height: "36px",
-                  display: "grid",
-                  placeItems: "center",
-                  border: "1.5px solid var(--border)",
-                  borderRadius: "50%",
-                  background: "var(--card)",
-                  color: "var(--text)",
-                  fontSize: "1.3rem",
-                  lineHeight: 1,
-                  cursor: "pointer",
-                  zIndex: 10,
-                }}
-              >
-                ×
-              </button>
-              <div style={{ width: "100%", height: "100%", borderRadius: "18px", overflow: "hidden", border: "1.5px solid var(--border)" }}>
-                <img src={venture.logoImg} alt={`${venture.name} preview`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              </div>
-              <h4 style={{ marginTop: "16px", fontSize: "1.2rem", fontWeight: "800", fontFamily: "Outfit", color: "var(--text)" }}>
-                {venture.name}
-              </h4>
-            </div>
-          </div>
-        );
-      })()}
 
         {/* Cyber Base Floor Line & Future Horizon Node */}
         <div style={{ position: "relative", zIndex: 2, marginTop: "10px", width: "100%", boxSizing: "border-box" }}>

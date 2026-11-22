@@ -101,9 +101,9 @@ export default function EcosystemHero() {
           <h3>BM2 Sipware</h3>
         </a>
 
-        {/* Top-Right Venture Node: BM2 PDFHub */}
-        <a href="/ventures/bm2-pdfhub?from=home" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-          <h3>BM2 PDFHub</h3>
+        {/* Top-Right Venture Node: BM2 LevelUp */}
+        <a href="/ventures/bm2-levelup?from=home" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+          <h3>BM2 LevelUp</h3>
         </a>
 
         {/* Bottom Venture Node: BM2 Innovation */}

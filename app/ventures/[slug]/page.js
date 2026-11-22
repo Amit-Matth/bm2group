@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import ThemeToggle from "@/components/ThemeToggle";
+import Navbar from "@/components/Navbar";
 
 const COMPANY = "BM2GROUP";
 
@@ -13,9 +13,15 @@ const VENTURES_DATA = {
     targetDate: "2026-11-16T09:00:00+05:30",
     color: "#0284c7",
   },
+  "bm2-levelup": {
+    name: "BM2 LevelUp",
+    logoImg: "/LEVELUP.png",
+    targetDate: null,
+    color: "#f59e0b",
+  },
   "bm2-pdfhub": {
-    name: "BM2 PDFHub",
-    logoImg: "/PDFHUB.png",
+    name: "BM2 LevelUp",
+    logoImg: "/LEVELUP.png",
     targetDate: null,
     color: "#f59e0b",
   },
@@ -44,19 +50,7 @@ function Icon({ name, size = 18 }) {
   );
 }
 
-function useTheme() {
-  const [theme, setTheme] = useState("light");
-  useEffect(() => {
-    setTheme(document.documentElement.getAttribute("data-theme") || "light");
-  }, []);
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("bm2-theme", next); } catch (e) {}
-  };
-  return [theme, toggle];
-}
+
 
 function VentureCountdown({ targetDate }) {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -177,8 +171,6 @@ function VentureCountdown({ targetDate }) {
 }
 
 export default function VentureDetailPage() {
-  const [theme, toggleTheme] = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const params = useParams();
   const searchParams = useSearchParams();
   const backHref = searchParams.get("from") === "home" ? "/" : "/ventures";
@@ -217,19 +209,7 @@ export default function VentureDetailPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible inner-page-nav">
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
-          <a href="/" style={backHref === "/" ? { color: "var(--cyan)" } : undefined} onClick={() => setMobileMenuOpen(false)}>Home</a>
-          <a href="/ventures" style={backHref === "/ventures" ? { color: "var(--cyan)" } : undefined} onClick={() => setMobileMenuOpen(false)}>Ventures</a>
-          <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
-          <a href="/journey" onClick={() => setMobileMenuOpen(false)}>Journey</a>
-        </nav>
-        <div className="nav-mobile-actions">
-          <button className="menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
-            <Icon name={mobileMenuOpen ? "close" : "menu"} size={22} />
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       <main className="venture-detail-main" style={{ padding: "140px 16px 100px", maxWidth: "860px", margin: "0 auto", width: "100%", boxSizing: "border-box" }}>
         <div className="venture-detail-card" style={{ background: "var(--card)", border: "1.5px solid var(--border)", borderRadius: "24px", padding: "48px 20px 40px", boxShadow: "0 20px 50px rgba(0,0,0,0.08)", textAlign: "center", position: "relative", width: "100%", boxSizing: "border-box", overflow: "hidden" }}>
@@ -308,27 +288,21 @@ export default function VentureDetailPage() {
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "20px" }}>
                 <span style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "var(--cyan)" }}><Icon name="rocket" size={24} /></span>
                 <h3 style={{ fontSize: "1.4rem", fontWeight: "900", fontFamily: "Outfit", color: "var(--text)", margin: 0 }}>
-                  A Little Delayed, But Coming Soon!
+                  Launch Update
                 </h3>
               </div>
               <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "16px" }}>
-                We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right.
+                We planned to launch on November 16, but things are taking a little longer than expected.
               </p>
               <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "16px" }}>
-                Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves.
-              </p>
-              <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "16px" }}>
-                Good things are worth waiting for, and we're working behind the scenes to make this launch special.
+                We&apos;re working on the final bits and need a little more time before we&apos;re ready to open.
               </p>
               <p style={{ fontSize: "0.98rem", lineHeight: "1.75", color: "var(--muted)", marginBottom: "24px" }}>
-                Thank you for your patience and for being part of this journey. We can't wait to welcome you!
+                Thank you for your patience. We&apos;re looking forward to launching soon. ❤️
               </p>
               <div style={{ borderTop: "1px solid color-mix(in srgb, var(--cyan) 20%, var(--border))", paddingTop: "16px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "12px" }}>
                 <span style={{ fontSize: "0.95rem", fontWeight: "800", color: "var(--cyan)", fontFamily: "Outfit", display: "flex", alignItems: "center", gap: "6px" }}>
                   BM2 Sipware — A New Era of Gifting. <Icon name="heart" size={16} style={{ color: "#ef4444", fill: "#ef4444" }} />
-                </span>
-                <span style={{ fontSize: "0.85rem", fontWeight: "700", color: "var(--muted)" }}>
-                  — Team BM2 Group
                 </span>
               </div>
             </div>
@@ -367,8 +341,6 @@ export default function VentureDetailPage() {
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
-
-      <ThemeToggle />
     </>
   );
 }

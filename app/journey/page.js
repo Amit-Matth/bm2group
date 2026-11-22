@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import ThemeToggle from "@/components/ThemeToggle";
+import Navbar from "@/components/Navbar";
 
 const COMPANY = "BM2GROUP";
 
@@ -26,19 +26,7 @@ function Icon({ name, size = 18 }) {
   );
 }
 
-function useTheme() {
-  const [theme, setTheme] = useState("light");
-  useEffect(() => {
-    setTheme(document.documentElement.getAttribute("data-theme") || "light");
-  }, []);
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("bm2-theme", next); } catch (e) {}
-  };
-  return [theme, toggle];
-}
+
 
 const DEFAULT_JOURNEY = [
   {
@@ -60,18 +48,16 @@ const DEFAULT_JOURNEY = [
   {
     id: "entry-3",
     date: "November 16, 2026",
-    title: "BM2 Sipware",
-    summary: "A Little More Time. A Better Launch. ❤️",
-    details: "We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right. Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves. Good things are worth waiting for, and we're working behind the scenes to make this launch special. Thank you for your patience and for being part of this journey. Stay tuned. Something exciting is coming. — Team BM2 Group",
+    title: "Launch Update",
+    summary: "We planned to launch on November 16, but things are taking a little longer than expected.",
+    details: "We planned to launch on November 16, but things are taking a little longer than expected. We're working on the final bits and need a little more time before we're ready to open.",
     imageUrl: ""
   }
 ];
 
 export default function JourneyPage() {
-  const [theme, toggleTheme] = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [expandedIndices, setExpandedIndices] = useState({ 0: true, 2: true });
+  const [expandedIndices, setExpandedIndices] = useState({ 0: true });
   const [entries, setEntries] = useState(DEFAULT_JOURNEY);
   const [cardHeights, setCardHeights] = useState({});
   const [cardTabs, setCardTabs] = useState({}); // { [index]: "text" | "media" }
@@ -91,11 +77,11 @@ export default function JourneyPage() {
   }, []);
 
   const sipwareSummary = hasPassedSipwareLaunch
-    ? "A Little Delayed, But Coming Soon! 🚀"
+    ? "Launch Update"
     : "Launch: 9:00 AM, November 16, 2026";
 
   const sipwareDetails = hasPassedSipwareLaunch
-    ? "We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right. Sometimes, building something worth sharing takes longer than expected. Rather than rushing things, we've decided to give it the time and attention it deserves. Good things are worth waiting for, and we're working behind the scenes to make this launch special. Thank you for your patience and for being part of this journey. BM2 Sipware — A New Era of Gifting. ❤️ — Team BM2 Group"
+    ? "We planned to launch on November 16, but things are taking a little longer than expected. We're working on the final bits and need a little more time before we're ready to open."
     : "";
 
   const fetchJourney = async () => {
@@ -265,19 +251,7 @@ export default function JourneyPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible inner-page-nav">
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
-          <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
-          <a href="/ventures" onClick={() => setMobileMenuOpen(false)}>Ventures</a>
-          <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
-          <a href="/journey" style={{ color: "var(--cyan)" }} onClick={() => setMobileMenuOpen(false)}>Journey</a>
-        </nav>
-        <div className="nav-mobile-actions">
-          <button className="menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
-            <Icon name={mobileMenuOpen ? "close" : "menu"} size={22} />
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       {/* FULLSCREEN LIGHTBOX MODAL */}
       {lightboxImage && (
@@ -527,11 +501,9 @@ export default function JourneyPage() {
                     </div>
 
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                      {!isSipwareNode && (
-                        <span style={{ fontSize: "0.78rem", fontWeight: "700", color: "var(--muted)" }}>
-                          {item.date}
-                        </span>
-                      )}
+                      <span style={{ fontSize: "0.78rem", fontWeight: "700", color: "var(--muted)" }}>
+                        {item.date}
+                      </span>
                       <div className="pin-output" />
                     </div>
                   </div>
@@ -539,53 +511,15 @@ export default function JourneyPage() {
                   <div style={{ padding: "22px 24px" }}>
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "14px", gap: "10px" }}>
                       <h3 style={{ fontSize: "1.2rem", fontWeight: "700", fontFamily: "Outfit", color: "var(--text)", margin: 0 }}>
-                        {isSipwareNode ? "BM2 Sipware" : isGroupLaunchNode ? "Launch of BM2 Group" : item.title}
+                        {isSipwareNode ? (
+                          <span style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+                            <Icon name="rocket" size={20} style={{ color: "var(--cyan)" }} /> Launch Update
+                          </span>
+                        ) : isGroupLaunchNode ? "Launch of BM2 Group" : item.title}
                       </h3>
 
                       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                        {false && item.imageUrl && (
-                          <div
-                            style={{ display: "flex", gap: "3px", background: "rgba(0,0,0,0.25)", padding: "3px", borderRadius: "8px", border: "1px solid var(--border)" }}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <button
-                              onClick={() => setCardTabs(prev => ({ ...prev, [index]: "text" }))}
-                              style={{
-                                padding: "3px 8px",
-                                fontSize: "0.72rem",
-                                fontWeight: "800",
-                                fontFamily: "Outfit",
-                                borderRadius: "6px",
-                                border: "none",
-                                cursor: "pointer",
-                                background: activeTab === "text" ? "var(--cyan)" : "transparent",
-                                color: activeTab === "text" ? "#000" : "var(--muted)",
-                                transition: "all 0.2s ease",
-                              }}
-                            >
-                              📄 Text
-                            </button>
-                            <button
-                              onClick={() => setCardTabs(prev => ({ ...prev, [index]: "media" }))}
-                              style={{
-                                padding: "3px 8px",
-                                fontSize: "0.72rem",
-                                fontWeight: "800",
-                                fontFamily: "Outfit",
-                                borderRadius: "6px",
-                                border: "none",
-                                cursor: "pointer",
-                                background: activeTab === "media" ? "var(--cyan)" : "transparent",
-                                color: activeTab === "media" ? "#000" : "var(--muted)",
-                                transition: "all 0.2s ease",
-                              }}
-                            >
-                              🖼️ Media
-                            </button>
-                          </div>
-                        )}
-
-                        {!isSipwareNode && <div
+                        <div
                           style={{
                             transform: isExpanded ? "rotate(180deg)" : "rotate(0deg)",
                             transition: "transform 0.35s ease",
@@ -596,31 +530,34 @@ export default function JourneyPage() {
                           }}
                         >
                           <Icon name="chevronDown" size={18} />
-                        </div>}
+                        </div>
                       </div>
                     </div>
 
                     {isSipwareNode ? (
                       <div style={{ animation: "fadeIn 0.3s ease", display: "flex", flexDirection: "column", gap: "12px" }}>
-                        <div style={{
-                          fontSize: "1.08rem",
-                          fontWeight: "900",
-                          fontFamily: "Outfit",
-                          color: "var(--text)",
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "8px",
-                        }}>
-                          <Icon name="rocket" size={20} /> A Little Delayed, But Coming Soon!
-                        </div>
-                        <p style={{ fontSize: "0.93rem", lineHeight: "1.65", color: "var(--muted)", margin: 0 }}>
-                          We planned to launch today, November 16, but we're taking a little extra time to make sure everything is just right.
-                        </p>
-                        <div style={{ borderTop: "1px solid color-mix(in srgb, var(--cyan) 25%, var(--border))", paddingTop: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
-                          <span style={{ fontSize: "0.88rem", fontWeight: "800", color: "var(--cyan)", fontFamily: "Outfit", display: "flex", alignItems: "center", gap: "6px" }}>
-                            BM2 Sipware — A New Era of Gifting. <Icon name="heart" size={15} style={{ color: "#ef4444", fill: "#ef4444" }} />
-                          </span>
-                        </div>
+                        {!isExpanded ? (
+                          <p style={{ fontSize: "0.93rem", lineHeight: "1.65", color: "var(--muted)", margin: 0 }}>
+                            We planned to launch on November 16, but things are taking a little longer than expected.
+                          </p>
+                        ) : (
+                          <>
+                            <p style={{ fontSize: "0.93rem", lineHeight: "1.65", color: "var(--muted)", margin: 0 }}>
+                              We planned to launch on November 16, but things are taking a little longer than expected.
+                            </p>
+                            <p style={{ fontSize: "0.93rem", lineHeight: "1.65", color: "var(--muted)", margin: 0 }}>
+                              We&apos;re working on the final bits and need a little more time before we&apos;re ready to open.
+                            </p>
+                            <p style={{ fontSize: "0.93rem", lineHeight: "1.65", color: "var(--muted)", margin: 0 }}>
+                              Thank you for your patience. We&apos;re looking forward to launching soon. ❤️
+                            </p>
+                            <div style={{ borderTop: "1px solid color-mix(in srgb, var(--cyan) 25%, var(--border))", paddingTop: "12px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "8px" }}>
+                              <span style={{ fontSize: "0.88rem", fontWeight: "800", color: "var(--cyan)", fontFamily: "Outfit", display: "flex", alignItems: "center", gap: "6px" }}>
+                                BM2 Sipware — A New Era of Gifting. <Icon name="heart" size={15} style={{ color: "#ef4444", fill: "#ef4444" }} />
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </div>
                     ) : activeTab === "media" ? (
                       <div style={{ animation: "fadeIn 0.3s ease" }}>
@@ -757,8 +694,6 @@ export default function JourneyPage() {
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
-
-      <ThemeToggle />
 
       <style jsx global>{`
         @keyframes fadeIn {

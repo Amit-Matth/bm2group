@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import ThemeToggle from "@/components/ThemeToggle";
+import Navbar from "@/components/Navbar";
 
 const COMPANY = "BM2GROUP";
 
@@ -25,19 +25,7 @@ function Icon({ name, size = 18 }) {
   );
 }
 
-function useTheme() {
-  const [theme, setTheme] = useState("light");
-  useEffect(() => {
-    setTheme(document.documentElement.getAttribute("data-theme") || "light");
-  }, []);
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("bm2-theme", next); } catch (e) {}
-  };
-  return [theme, toggle];
-}
+
 
 function Reveal({ children, className = "", delay = 0 }) {
   const ref = useRef(null);
@@ -62,8 +50,6 @@ function Reveal({ children, className = "", delay = 0 }) {
 }
 
 export default function Home() {
-  const [theme, toggleTheme] = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [responsiveScale, setResponsiveScale] = useState(1);
@@ -112,19 +98,7 @@ export default function Home() {
         <span className="grid" />
       </div>
 
-      <header className={`nav home-nav ${scrolled ? "visible" : ""}`}>
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
-          <a href="/" style={{ color: "var(--cyan)" }} onClick={() => setMobileMenuOpen(false)}>Home</a>
-          <a href="/ventures" onClick={() => setMobileMenuOpen(false)}>Ventures</a>
-          <a href="/founder" onClick={() => setMobileMenuOpen(false)}>Founder</a>
-          <a href="/journey" onClick={() => setMobileMenuOpen(false)}>Journey</a>
-        </nav>
-        <div className="nav-mobile-actions">
-          <button className="menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
-            <Icon name={mobileMenuOpen ? "close" : "menu"} size={22} />
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       <main>
         {/* HERO / PERFECTLY CENTERED FLEXBOX LAYOUT WITH RADAR ORBITS */}
@@ -176,9 +150,9 @@ export default function Home() {
               <h3>BM2 Sipware</h3>
             </a>
 
-            {/* Top-Right Venture Node: BM2 PDFHub */}
-            <a href="/ventures/bm2-pdfhub?from=home" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
-              <h3>BM2 PDFHub</h3>
+            {/* Top-Right Venture Node: BM2 LevelUp */}
+            <a href="/ventures/bm2-levelup?from=home" className="sipware-card card-top-right" style={{ position: "absolute", left: "calc(50% + 199px)", top: "calc(50% - 93px)", transform: "translate(-50%, -50%)", zIndex: 4, textDecoration: "none", color: "inherit", cursor: "pointer" }}>
+              <h3>BM2 LevelUp</h3>
             </a>
 
             {/* Bottom Venture Node: BM2 Innovation */}
@@ -215,8 +189,6 @@ export default function Home() {
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
-
-      <ThemeToggle />
     </>
   );
 }

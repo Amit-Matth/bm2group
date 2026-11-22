@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import ThemeToggle from "@/components/ThemeToggle";
+import Navbar from "@/components/Navbar";
 
 const COMPANY = "BM2GROUP";
 const FOUNDER_EMAIL = "amitmatth121@gmail.com";
@@ -27,23 +27,7 @@ function Icon({ name, size = 18 }) {
   );
 }
 
-function useTheme() {
-  const [theme, setTheme] = useState("light");
-  useEffect(() => {
-    setTheme(document.documentElement.getAttribute("data-theme") || "light");
-  }, []);
-  const toggle = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next);
-    try { localStorage.setItem("bm2-theme", next); } catch (e) {}
-  };
-  return [theme, toggle];
-}
-
 export default function FounderPage() {
-  const [theme, toggleTheme] = useTheme();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   // Connect Form State
@@ -95,19 +79,7 @@ export default function FounderPage() {
         <span className="grid" />
       </div>
 
-      <header className="nav visible inner-page-nav">
-        <nav className={`links ${mobileMenuOpen ? "open" : ""}`}>
-          <a href="/" onClick={() => setMobileMenuOpen(false)}>Home</a>
-          <a href="/ventures" onClick={() => setMobileMenuOpen(false)}>Ventures</a>
-          <a href="/founder" style={{ color: "var(--cyan)" }} onClick={() => setMobileMenuOpen(false)}>Founder</a>
-          <a href="/journey" onClick={() => setMobileMenuOpen(false)}>Journey</a>
-        </nav>
-        <div className="nav-mobile-actions">
-          <button className="menu-btn" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
-            <Icon name={mobileMenuOpen ? "close" : "menu"} size={22} />
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       <main>
         {/* FOUNDER CONTENT */}
@@ -343,8 +315,6 @@ export default function FounderPage() {
       <footer style={{ textAlign: "center", padding: "40px 24px", color: "var(--muted)", fontSize: "0.9rem", borderTop: "1px solid var(--border)", marginTop: "80px" }}>
         2026 @ All Rights Reserved BM2Group
       </footer>
-
-      <ThemeToggle />
     </>
   );
 }
