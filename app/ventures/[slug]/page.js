@@ -15,13 +15,13 @@ const VENTURES_DATA = {
   },
   "bm2-levelup": {
     name: "BM2 LevelUp",
-    logoImg: "/LEVELUP.png",
+    logoImg: "/LevelUp.jpg",
     targetDate: null,
     color: "#f59e0b",
   },
   "bm2-pdfhub": {
     name: "BM2 LevelUp",
-    logoImg: "/LEVELUP.png",
+    logoImg: "/LevelUp.jpg",
     targetDate: null,
     color: "#f59e0b",
   },
